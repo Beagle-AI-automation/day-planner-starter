@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Day Planner — tests</title>
+  <link rel="icon" href="data:,">
+  <style>
+    body { margin: 0; padding: 1.5rem 1rem; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; color: #1f2933; background: #f4f5f7; }
+    main { max-width: 56rem; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+    #summary { font-weight: 600; margin: 0 0 1rem; }
+    #summary.all-pass { color: #0f7a3d; }
+    #summary.some-fail { color: #b42318; }
+    ol { padding-left: 1.5rem; margin: 0; }
+    li { margin: 0.25rem 0; }
+    .pass::before { content: "PASS "; color: #0f7a3d; font-weight: 700; }
+    .fail::before { content: "FAIL "; color: #b42318; font-weight: 700; }
+    .reason { display: block; color: #b42318; font-size: 0.9rem; }
+    #zone-note { background: #fff7e6; border-left: 4px solid #b54708; padding: 0.5rem 0.75rem; margin: 0 0 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Day Planner — tests</h1>
+    <p id="summary">Running…</p>
+    <p id="zone-note" hidden>Your laptop is set to a time zone behind UTC (the Americas, for example). These date tests are written for India time, so a few can show FAIL on this page even on the untouched app. <code>node --test</code> always runs on India time: that is the result that counts.</p>
+    <ol id="results"></ol>
+  </main>
+
+  <script src="../logic.js"></script>
+  <script src="./cases.js"></script>
+  <script>
+    // A tiny test runner: run every case from cases.js and show PASS or FAIL
+    // with the same names Node prints.
+    const results = document.getElementById('results');
+    const summary = document.getElementById('summary');
+    let passed = 0;
+
+    for (const testCase of window.cases) {
+      const item = document.createElement('li');
+      try {
+        testCase.run();
+        item.className = 'pass';
+        item.textContent = testCase.name;
+        passed += 1;
+      } catch (error) {
+        item.className = 'fail';
+        item.textContent = testCase.name;
+        const reason = document.createElement('span');
+        reason.className = 'reason';
+        reason.textContent = error.message;
+        item.appendChild(reason);
+      }
+      results.appendChild(item);
+    }
+
+    const total = window.cases.length;
+    summary.textContent = `${passed} of ${total} passed`;
+    summary.className = passed === total ? 'all-pass' : 'some-fail';
+
+    // getTimezoneOffset() is positive west of UTC. Node's run pins India time; a browser cannot.
+    if (passed !== total && new Date().getTimezoneOffset() > 0) {
+      document.getElementById('zone-note').hidden = false;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+# Day Planner
+
+A small web app for one problem most people have: a pile of things with dates on them — work, study, side projects, training, family — and no idea which one to start today. You give it your own dated tasks, it answers **"what should I do today?"**
+
+This copy is yours. Rename it, recolour it, put your own real week in, and change how it thinks. It is plain HTML, CSS and JavaScript: no frameworks, no build step, no accounts, no network. Nothing you type leaves your computer.
+
+## Start here (the 7-day build week)
+
+This repo is your copy for the Beagle build week. Everything you need is inside it and works offline once it is on your laptop.
+
+- **What you need:** any Windows, macOS or Linux laptop from the last six years or so; about 8–10 hours this week; the free tier of any AI tool (ChatGPT, Claude, Gemini, Cursor or Copilot). Downloads: Git (about 60 MB), Node (about 30 MB), this repo (under 1 MB). No framework, no accounts, no server: plain HTML, CSS and JavaScript.
+- **The week, day by day:** open `days/README.md`, then `days/day-1.md`. One day at a time, in order.
+- **See how it works:** the `explainers/` folder has interactive figures (double-click any of them) that explain what you meet each day.
+- **How review works:** `check.js` verifies the work automatically. Days 1 to 6 are marked done or not done by `node check.js` in your own copy, so there is no human gate and nothing to wait for: run it and you know where you stand. You still post your evidence in the shared channel (the cohort WhatsApp group) — a commit link, a screenshot, three sentences in your own words — because that is how everyone else learns from it. Questions go in that same channel: your own AI tool first, then the channel, then a written answer from Adi within one business day, visible to everyone. There are no one-to-one calls on weekdays. Day 7 is the one day `check.js` cannot score, so you score it yourself against the rubric in `days/day-7.md`. There are no grades and no scores.
+- **Your AI is welcome.** Use it for everything. What you must be able to do is explain your change in your own words when asked; if you cannot, you get one question and a chance to rewrite, not a penalty.
+- **Your work is yours.** This starter is MIT-licensed (see `LICENSE`), so your fork is yours to keep and change. The week does not promise a job, a placement or an income; it gives you a working app in your own GitHub and the ability to explain it.
+
+## Open it
+
+Pick whichever is easiest:
+
+1. **Double-click `index.html`.** It opens in your browser.
+2. **With Node:** open a terminal in this folder and run `npx serve`, then open the address it prints (usually `http://localhost:3000`).
+3. **With Python:** open a terminal in this folder and run `python3 -m http.server 8000`, then open `http://localhost:8000`.
+
+All three show the same app. Tasks you add through the form are saved in your browser; "Reset to sample tasks" brings back the list in `sample-data.js`.
+
+## Run the tests
+
+The tests check the thinking in `logic.js`. Run them either way:
+
+- **In a terminal** (needs Node 22 or newer), from this folder: `node --test`
+  Every line should start with a tick and the summary should say `fail 0`.
+- **In a browser:** open `tests/browser.html`. It shows the same test names with PASS or FAIL.
+
+Both run the identical list of tests from `tests/cases.js`.
+
+## Check your progress (the quest log)
+
+From this folder run:
+
+```
+node check.js
+```
+
+It reads your repo and prints which day's quest is done, your level and XP, what to do next, and one line to post in the shared channel. It is the gate: when it ticks a day, that day is done. It changes nothing and sends nothing. After Day 6 add your live address: `node check.js --url https://<you>.github.io/<repo>/`.
+
+## File map
+
+| File | What it is |
+|---|---|
+| `index.html` | The page: title, Today and Hours inputs, task table, Today's plan, Clashes, Add task form. Also holds a copy of the sample tasks (see below). |
+| `app.css` | The look. Three colour variables at the top control the whole app. |
+| `logic.js` | The brain. Six pure functions that sort, plan and count. No page, no clock. |
+| `app.js` | The wiring. Reads the inputs, calls `logic.js`, draws the results, saves tasks you add. |
+| `sample-data.js` | Twelve made-up tasks across six areas: work, freelance, a course, fitness, family, a job hunt. The only copy; edit this on Day 2. |
+| `tests/cases.js` | The list of test cases, shared by Node and the browser. |
+| `tests/logic.test.js` | Runs the cases with `node --test`. |
+| `tests/browser.html` | Runs the same cases in a browser, no install needed. |
+| `check.js` | Your quest log: tells you which day is done and what to do next. |
+| `quest/baseline.json` | What the untouched starter looked like; `check.js` compares against it. Do not edit. |
+| `README.md` | This file. |
+
+## What logic.js gives you
+
+| Function | What it answers |
+|---|---|
+| `daysUntil(dueISO, today)` | How many calendar days from `today` to a `'YYYY-MM-DD'` date. 0 = due today, negative = overdue, `NaN` if the date cannot be read. |
+| `taskWeight(type)` | How heavy a task type is: exam 4, practical 3, record 2, assignment (or anything else) 1. |
+| `prioritise(tasks, today)` | A new array in the order to tackle tasks: overdue first, then soonest due, then heavier type, then title A–Z. |
+| `findClashes(tasks)` | Pairs of exams on the same day. |
+| `planToday(tasks, today, hoursAvailable)` | `{ chosen, deferred }` — what fits in today's hours, in priority order. Overdue tasks are always chosen. |
+| `summarise(tasks, today)` | `{ total, overdue, dueThisWeek }` for the line at the top of the page. |
+
+In the browser these live on `window.planner`; in a test you `import` them from `logic.js`.
+
+## Where to change what
+
+| I want to… | Change this |
+|---|---|
+| Rename the app | The `<h1>` and `<title>` in `index.html` |
+| Change the colours | The three `--accent`, `--bg`, `--text` lines at the top of `app.css` |
+| Put my own week in | `sample-data.js` (same shape, one task per line) |
+| Change how tasks are ranked | `taskWeight` and `prioritise` in `logic.js` |
+| Change what counts as "this week" | `summarise` in `logic.js` |
+| Add a test | Add a `{ name, run }` object to the list in `tests/cases.js`; both runners pick it up |
+| Change the words in the days-left badge | `describeDaysLeft` in `app.js` |
+
+A task looks like this everywhere:
+
+```json
+{ "id": 13, "course": "DBMS", "title": "Assignment 3", "type": "assignment", "due": "2026-11-20", "hours": 2, "done": false }
+```
+
+`type` is one of `exam`, `practical`, `record`, `assignment`.
+
+## Good to know
+
+- **Tasks you add are saved in your browser** (under the key `day-planner-tasks`), so they are still there after a reload. They are only in that browser on that computer. **Reset to sample tasks** clears them and loads the sample list again.
+- **One copy of the sample tasks.** They live in `sample-data.js`, loaded by `index.html` like any other script, so double-click, `npx serve` and GitHub Pages all show the same list. Check your edits with `node -e "console.log(require('./sample-data.js').length + ' tasks ok')"`.
+- **If you edited the sample tasks and nothing changed**, you are probably looking at tasks saved earlier. Press **Reset to sample tasks**.
+- All names and dates in the sample data are made up. Keep it that way when you share your copy: course names and dates only, no marks, no personal details.
