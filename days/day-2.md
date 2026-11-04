@@ -4,22 +4,22 @@
 Rename the app, change its three colours, replace the sample tasks with your own real week, and make your first commit and push.
 
 ## You will need
-- Day 1 done: the app opens on your laptop and the tests are green.
+- Day 1 done: the app opens in your Codespace and the tests are green.
 - 60–90 minutes.
 - Your own real week, whatever it is made of: work deadlines, a class or an exam, a client delivery, a training session, a family thing you keep forgetting. You need a name and a date for each. Names and dates only. No marks. No names of people. No roll or employee number. Nothing confidential from an employer or a client.
 - Your editor, your terminal and your AI.
 
 **Words used today**
-- **Git** (from Day 1): the program on your laptop that remembers every version of your files. **GitHub**: the website that stores a copy of your project online, under your username.
+- **Git** (from Day 1): the program in your Codespace that remembers every version of your files. **GitHub**: the website that stores a copy of your project online, under your username.
 - **Commit**: a saved snapshot of your project, with a one-line message saying what changed. Git keeps every commit, so you can always go back.
-- **Push**: copying your new commits from your laptop up to GitHub, so the online copy matches.
+- **Push**: copying your new commits from your Codespace up to GitHub, so the online copy matches.
 - **Commit link**: the web address of one commit on GitHub. Anyone who opens it sees exactly which lines you changed. It is how `check.js` and anyone in the shared channel can see what you did.
 - **The data file**: `sample-data.js`, a small JavaScript file that holds the list of tasks, one task per line, between a `[` and a `]`. Each task is written with curly brackets, double quotes and commas. A missing comma between two tasks breaks the file; a comma after the last task is allowed.
 - **CSS variable**: a named value written once at the top of `app.css` (like `--accent`) and used everywhere else in the file.
 - **Badge**: the small label in the task table that shows how many days are left.
 
 ## Steps
-1. Open the project folder in your editor (File → Open Folder) and double-click `index.html` so the app is open in your browser, as on Day 1. Put the two windows next to each other if your screen allows. You should see: the files on one side and the running app on the other.
+1. Open your Codespace from github.com (**Code → Codespaces**, click the one listed) and start the app with `npx serve .` as on Day 1, so the preview is open in a second browser tab. Keep both tabs handy: the editor in one, the running app in the other. You should see: the files in one tab and the running app in the other.
 
 2. Rename the app. Open `index.html`. Find the text `Day Planner`. It appears twice: inside `<title>` (the browser tab name) and inside the header `<h1>` (the big title on the page). Change both to a name of your own, for example `My Week` or `Sem 5 Survival Kit`. Save the file and reload the browser. You should see: your new name in the browser tab and at the top of the page.
 
@@ -49,10 +49,9 @@ Rename the app, change its three colours, replace the sample tasks with your own
 10. See what changed. Run `git status`. You should see: three file names in red under "Changes not staged for commit": `index.html`, `app.css`, `sample-data.js`.
 
 11. Commit. A commit is a saved snapshot of your project with a message saying what changed. It takes two commands: `git add .` tells Git which files to include (the dot means "everything in this folder"), and `git commit -m "..."` saves the snapshot with your message. Run `git add .`, then `git commit -m "Make it mine: name, colours, my own week"`. You should see: a line like `[main a1b2c3d] Make it mine: name, colours, my own week` followed by `3 files changed`.
-    - GitHub Desktop instead: open the app, you will see the three files in the Changes list; type the message in the Summary box; click **Commit to main**.
-    - No Git on your laptop (ZIP fallback): on github.com open your fork, click `index.html`, click the pencil icon, paste your new version, click **Commit changes**. Repeat for `app.css` and `sample-data.js`. You get one commit per file; that is fine. (One limit: `check.js` only reads the copy on your laptop, so commits you make on the website will not tick Day 2 in your quest log. To get the tick, clone your fork to your laptop later and run `check.js` there; until then, post the commit link as your Day 2 evidence and carry on to Day 3.)
+    - Buttons instead of typing: click the **Source Control** icon in the left bar of the editor (it shows a number when files have changed). Your changed files are listed. Type the message in the box at the top and click **Commit**.
 
-12. Push. Your commit is only on your laptop so far. `git push` sends it up to your fork on GitHub, so the online copy matches and anyone you give the link to can see it. Run `git push`. The first time, a window may open asking you to sign in to GitHub in your browser; do that. You should see: a few lines ending with something like `main -> main`. GitHub Desktop: click **Push origin**. ZIP fallback: already done, the website commit is already on GitHub.
+12. Push. Your commit lives only inside your Codespace so far. `git push` sends it up to your fork on GitHub, so the online copy matches and anyone you give the link to can see it. Run `git push`. Your Codespace is already signed in to GitHub, so it just works. You should see: a few lines ending with something like `main -> main`. Buttons instead: in the **Source Control** panel, click **Sync Changes**.
 
 13. Get the commit link. This is the web address of the commit you just pushed; anyone who opens it sees exactly which lines changed. Open your fork on github.com. Click the "commits" link (near the top of the file list, it shows a count and a clock icon). Click your newest commit. You should see: your changes with removed lines in red and added lines in green, and an address bar that contains `/commit/` followed by a long code. Copy that whole address; it is your commit link.
 
@@ -99,7 +98,7 @@ In this CSS, what is :root and what does var(--accent) do? Explain in plain Engl
 ## If you are stuck
 1. The page is blank, or the table is empty, after you edited the data file: the file is broken. Run the check command in Step 6 and fix the line it points at. The usual causes are a missing comma between two tasks, a missing double quote, a deleted `];`, or a date written like `5/11/2026`.
 2. The page still shows the OLD sample tasks after your edit: your browser kept a saved copy of the tasks (the app remembers tasks you add through the form). Click **Reset to sample tasks** at the bottom of the page. If that button is not there, press F12, click the **Console** tab, type `localStorage.removeItem('day-planner-tasks')`, press Enter, and reload.
-3. `git push` asks for a password and rejects your GitHub password: GitHub does not accept account passwords on the command line. Easiest fix: install GitHub Desktop (Day 1, Option A), sign in there, open your folder with File → Add local repository, and click **Push origin**. Or use the website method in Step 11.
+3. `git push` is rejected: this should not happen in a Codespace, which is already signed in to your GitHub account. Check the address bar says your own username, not `Beagle-AI-automation` — if you opened the Codespace on the original repo instead of your fork, you have no permission to push to it. Fork first, then open a Codespace on the fork.
 
 ## Common mistakes
 - Changing colours somewhere in the middle of `app.css` instead of the three variables in `:root` at the top. The variables are what the rest of the file reads.

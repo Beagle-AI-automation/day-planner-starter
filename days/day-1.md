@@ -86,7 +86,7 @@ Here is a test file from my project. Pick one test and explain: what function it
 ## Submit
 Post in the shared channel:
 - The line `node check.js` printed (your quest log line).
-- Screenshot of the app open on your laptop.
+- Screenshot of the app open in your browser preview.
 - Screenshot of the green tests (terminal with `fail 0`, or `tests/browser.html` with all PASS).
 - Your three sentences about `planToday`.
 - The link to your fork (`github.com/YOUR-USERNAME/day-planner-starter`).

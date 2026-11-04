@@ -28,7 +28,7 @@ Nobody marks this day. There is no session, no slot and no verdict to wait for: 
 
    Why it matters: in three months you will not remember Day 4. This paragraph is the only thing that will still explain it, and it is the thing you send someone who asks what you can do.
 
-5. Ship it. Push everything, wait a minute, then hard-reload the live URL (Ctrl+Shift+R, Cmd+Shift+R on Mac). You should see: the live site showing exactly what your laptop shows, including the fixes from step 3.
+5. Ship it. Push everything, wait a minute, then hard-reload the live URL (Ctrl+Shift+R, Cmd+Shift+R on Mac). You should see: the live site showing exactly what your Codespace preview shows, including the fixes from step 3.
 
 6. Run your quest log one last time, with your live address: `node check.js --url https://YOUR-USERNAME.github.io/day-planner-starter/`. You should see: Days 1 to 6 ticked, level Shipper, and Day 7 shown as `(you score this one yourself)`. Day 7 stays open in the quest log because a program cannot read a self-score; that is not a missing verdict from anyone.
 
@@ -48,13 +48,13 @@ This is the standard for the week, one row per day. Score yourself against it in
 
 | Day | Met when you can show |
 |---|---|
-| 1 | The app open on your laptop with tasks visible; tests green (`fail 0` or all PASS); your fork under your own username; three sentences on `planToday` that name its input (tasks, today, hours), its output (chosen and deferred) and its rule (walk the priority order, add while hours fit, overdue always chosen) — in your words, not a paste |
+| 1 | The app open in your Codespace preview with tasks visible; tests green (`fail 0` or all PASS); your fork under your own username; three sentences on `planToday` that name its input (tasks, today, hours), its output (chosen and deferred) and its rule (walk the priority order, add while hours fit, overdue always chosen) — in your words, not a paste |
 | 2 | A commit link showing `index.html`, `app.css` and `sample-data.js` changed; the app with your name, your colours and your own real week in it; your data file holding area, title, type, date, hours and nothing personal; dates written `YYYY-MM-DD`; your one-line note about the days-left badge |
 | 3 | Three or more new tests in `tests/cases.js`; a screenshot of them failing taken **before** you changed `logic.js`; a green run after; a ticked task that goes grey, leaves Today's plan and the overdue count, and stays in the table; ticks that survive a reload; `prioritise` still not changing the list it was given |
 | 4 | A red run of your own new `daysUntil` test using a `today` with a time of day on it, from before the fix; a green run after that includes every older test and the `NaN` test; the same answers at 10:00 and at 23:00; a commit with both `tests/cases.js` and `logic.js`; three sentences that name the **cause**, not just the change you made |
 | 5 | Four new tests and `fail 0`; a bad date showing `check the date` with the rest of the page still working; "Add task" with an empty or bad date not crashing; an empty list showing a friendly sentence; `sample-data.js` back to your real tasks and not touched in that commit |
-| 6 | The live URL opening on your laptop **and** on your phone with your tasks; the live link in your README; `node check.js --url ...` showing `live 200`; no personal data anywhere in the repo, checked yourself in the data file, the page title, the commit messages and a full-folder search (the safety scan cannot see people's names, so this row is only as good as your own two minutes) |
-| 7 | A clean tree and `fail 0`; at most two polish fixes, any logic one with a test written first; a README in your own words carrying the live link, how to run it, what you changed and the Day 4 cause; the live site matching your laptop; seven honest self-score lines; your live URL posted in the shared channel |
+| 6 | The live URL opening in your browser **and** on your phone with your tasks; the live link in your README; `node check.js --url ...` showing `live 200`; no personal data anywhere in the repo, checked yourself in the data file, the page title, the commit messages and a full-folder search (the safety scan cannot see people's names, so this row is only as good as your own two minutes) |
+| 7 | A clean tree and `fail 0`; at most two polish fixes, any logic one with a test written first; a README in your own words carrying the live link, how to run it, what you changed and the Day 4 cause; the live site matching your Codespace preview; seven honest self-score lines; your live URL posted in the shared channel |
 
 Two rows are worth re-reading before you score yourself. **Day 3 and Day 4 both need red evidence that predates the green.** If the only red run you have is one you produced afterwards by commenting the fix out, say so in your self-score; that is a "not met" on the evidence and a "met" on the understanding, and writing that distinction down is more useful than a tick.
 
