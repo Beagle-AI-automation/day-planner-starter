@@ -71,9 +71,9 @@ I am a beginner who has never written a program. Here is a JavaScript file from 
 [paste the whole of logic.js here]
 ```
 
-Prompt 2, for install trouble:
+Prompt 2, when something does not work:
 ```
-I am installing [Git / Node] on [Windows 11 / macOS]. I ran this command: [command]. I saw this: [paste the exact message]. Explain what the message means in one short paragraph, then give me the single next step. Do not give me five options.
+I am working in a GitHub Codespace in my browser. I ran this: [command or what I clicked]. I saw this: [paste the exact message]. Explain what the message means in one short paragraph, then give me the single next step. Do not give me five options.
 ```
 
 Prompt 3, for the tests:
