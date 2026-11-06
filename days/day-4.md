@@ -49,7 +49,7 @@ Reproduce a real bug in the days-left badge, write a test that fails because of 
 
 8. Try the fix at a different time of day. In `scratch.mjs` change `T10:00:00` to `T23:00:00` in both lines and run it again. You should see: still `0` and `1`. If a different hour gives different answers, the fix is not finished; see "Common mistakes".
 
-9. Check the app. Reload, set "Today" to a due date. You should see: "Due today" (or 0) for that task; one day earlier, 1 day left; one day later, overdue.
+9. Check the app. Reload, set "Today" to a due date. You should see: "Due today" for that task; set Today one day earlier and it reads "Due tomorrow"; one day later, "Overdue by 1 day".
 
 10. Delete `scratch.mjs`. Run `git status` to confirm only `logic.js` and `tests/cases.js` changed. Commit and push: `git add .` then `git commit -m "Fix daysUntil off-by-one: compare calendar dates, failing test first"` then `git push`. You should see: a commit on GitHub with exactly those two files.
 
@@ -99,7 +99,7 @@ Here is my fixed daysUntil and my test output. Review it: does it still return N
 
 ## If you are stuck
 1. You cannot see what is wrong: print the two values being subtracted, as Step 5 says, and compare their time parts, not just their dates. One of them is always at a fixed time of day. The other carries whatever time it was given.
-2. `new Date('2026-11-05')`, a string with no time part, means midnight at the start of that day, but midnight in UTC (universal time, the zero time zone), not midnight on your clock. India is 5 hours 30 minutes ahead of UTC. `today` is a local time with hours in it. Subtracting a morning in India from midnight UTC on the same date gives a small negative number of milliseconds, and `Math.floor` pushes any negative fraction down to -1. That is your "one day less". To see this mechanism move, open `explainers/calendar-days-vs-clock-time.html` and choose **Open Preview** (right-click the file) and drag the clock.
+2. `new Date('2026-11-05')`, a string with no time part, means midnight at the start of that day, but midnight in UTC (universal time, the zero time zone). `today` carries a time of day. So Step 3 subtracted 10:00 on the 5th from midnight on the 5th: a negative number of milliseconds, less than a whole day, and `Math.floor` pushes any negative fraction down to -1. That is your "one day less". Your Codespace's clock runs on India time, which is 5 hours 30 minutes ahead of UTC, so from early morning onward the app shows the same wrong badge, and `node --test` runs on that same clock. To see the mechanism move, open `explainers/calendar-days-vs-clock-time.html` the way you open every explainer (add it after the `/` in the preview's address) and drag the clock.
 3. What you want is the number of calendar days between two dates, not the number of 24-hour spans between two moments. Build a date-only value for each side from year, month and day alone, and only then subtract. JavaScript has `Date.UTC(year, month, day)` for exactly this. `today.getFullYear()`, `today.getMonth()` and `today.getDate()` give you today's parts. For `dueISO`, pull the three numbers out of the string (a regular expression such as `/^(\d{4})-(\d{2})-(\d{2})$/`, or `split('-')`), and remember the string's month is 1-based while `Date.UTC` counts months from 0. If the string does not match, return `NaN`. Once both sides are whole days apart, divide by `86400000` and round.
 
 ## Common mistakes

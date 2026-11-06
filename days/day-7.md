@@ -24,7 +24,7 @@ Nobody marks this day. There is no session, no slot and no verdict to wait for: 
 
 3. Fix at most two of them, and no more. Pick the two that a stranger would notice first. A label that is wrong, a colour that is unreadable, a date that reads badly. If a fix touches `logic.js`, write the test first and watch it go red, the way you did on Days 3, 4 and 5. Run `node --test` green, commit, push. You should see: `fail 0`, and a commit on github.com. Resist the third fix; shipping a clean small thing beats a bigger unfinished one.
 
-4. Write your README. This is the part most people skip and it is the part that is worth something later. Open `README.md` in your editor and make it say, in your own words, in about ten lines: what the app does; the live link; how to run it locally (`git clone`, open `index.html`, `node --test`); what you changed this week; the bug you found on Day 4, its cause in one sentence, and how you know it is fixed; and one thing you would build next. Commit and push. You should see: your fork's front page on github.com showing your own text, with the live link clickable.
+4. Write your README. This is the part most people skip and it is the part that is worth something later. Open `README.md` in your editor and make it say, in your own words, in about ten lines: what the app does; the live link; how to run it (open a Codespace on the repo, `npx serve .`, `node --test`), and if you like one line for a laptop (`git clone`, open `index.html`); what you changed this week; the bug you found on Day 4, its cause in one sentence, and how you know it is fixed; and one thing you would build next. Commit and push. You should see: your fork's front page on github.com showing your own text, with the live link clickable.
 
    Why it matters: in three months you will not remember Day 4. This paragraph is the only thing that will still explain it, and it is the thing you send someone who asks what you can do.
 
@@ -34,7 +34,7 @@ Nobody marks this day. There is no session, no slot and no verdict to wait for: 
 
 7. Self-score against the rubric below. Read the seven rows. For each one write `met` or `not met` in one line, in your own words, naming your own evidence ("Day 3 met: three new tests in cases.js, red screenshot from before the change"). Be honest on the rows you did not meet. You should see: seven lines you wrote yourself.
 
-8. Post it in the shared channel, in one message: the live URL, your fork link, your seven self-score lines, one line on what you would build next, and one line on something you still do not fully understand. `node check.js --submit 7` prints the skeleton for you. You should see: your message in the channel, and the end of your trial week.
+8. Post it in the shared channel, in one message: the live URL, your fork link, your seven self-score lines, one line on what you would build next, and one line on something you still do not fully understand. `node check.js --submit 7 --url https://YOUR-USERNAME.github.io/day-planner-starter/` prints the skeleton for you. You should see: your message in the channel, and the end of your trial week.
 
    The last line matters most. "I still do not really understand how localStorage decides what to keep" is a better end to the week than a clean sheet, and it is the thing worth working on next.
 
@@ -49,7 +49,7 @@ This is the standard for the week, one row per day. Score yourself against it in
 | Day | Met when you can show |
 |---|---|
 | 1 | The app open in your Codespace preview with tasks visible; tests green (`fail 0` or all PASS); your fork under your own username; three sentences on `planToday` that name its input (tasks, today, hours), its output (chosen and deferred) and its rule (walk the priority order, add while hours fit, overdue always chosen) — in your words, not a paste |
-| 2 | A commit link showing `index.html`, `app.css` and `sample-data.js` changed; the app with your name, your colours and your own real week in it; your data file holding area, title, type, date, hours and nothing personal; dates written `YYYY-MM-DD`; your one-line note about the days-left badge |
+| 2 | Commit links that between them show `index.html`, `app.css` and `sample-data.js` changed; the app with your name, your colours and your own real week in it; your data file holding area, title, type, date, hours and nothing personal; dates written `YYYY-MM-DD`; your one-line note about the days-left badge |
 | 3 | Three or more new tests in `tests/cases.js`; a screenshot of them failing taken **before** you changed `logic.js`; a green run after; a ticked task that goes grey, leaves Today's plan and the overdue count, and stays in the table; ticks that survive a reload; `prioritise` still not changing the list it was given |
 | 4 | A red run of your own new `daysUntil` test using a `today` with a time of day on it, from before the fix; a green run after that includes every older test and the `NaN` test; the same answers at 10:00 and at 23:00; a commit with both `tests/cases.js` and `logic.js`; three sentences that name the **cause**, not just the change you made |
 | 5 | Four new tests and `fail 0`; a bad date showing `check the date` with the rest of the page still working; "Add task" with an empty or bad date not crashing; an empty list showing a friendly sentence; `sample-data.js` back to your real tasks and not touched in that commit |
@@ -84,7 +84,7 @@ Here is a function from my project that I did not write. Explain it to me in thr
 ```
 
 ## Submit
-Post in the shared channel, one message (`node check.js --submit 7` prints the skeleton):
+Post in the shared channel, one message (`node check.js --submit 7 --url https://YOUR-USERNAME.github.io/day-planner-starter/` prints the skeleton):
 - The line `node check.js` printed (your quest log line).
 - Your live URL and your fork link.
 - Your seven self-score lines, `met` or `not met`, with your evidence named.

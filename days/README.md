@@ -4,17 +4,17 @@ Welcome. In seven days you take a small working app, make it yours, add a featur
 
 This trial is free. No card. Nothing is charged at the end.
 
-You need a laptop (Windows or Mac; Linux is fine too) for every day. A phone is used once, on Day 6, to check your live site.
+You need any computer with a browser (Windows, Mac, Linux, a Chromebook, a borrowed laptop) and a free GitHub account. You install nothing: the whole week runs in a browser tab, in a GitHub Codespace. A phone is used once, on Day 6, to check your live site.
 
 ## The app you will work on
-The Day Planner. You give it your own dated tasks — work, study, side projects, training, family things — and it answers "what should I do today?". It is a plain web page: HTML, CSS and JavaScript. No accounts, no server, no internet needed once it is on your laptop. You install only two tools, Git and Node, on Day 1.
+The Day Planner. You give it your own dated tasks — work, study, side projects, training, family things — and it answers "what should I do today?". It is a plain web page: HTML, CSS and JavaScript. No framework, no server of your own, nothing to install: on Day 1 you fork it and open a Codespace, and everything you need is already there.
 
-The starter also ships two helpers. `check.js` is your quest log: every day ends with `node check.js`, which reads your repo and prints which days are done, your level (Runner, Maker, Builder, Debugger, Tester, Shipper, then Presenter, which you take for yourself once you have shipped and self-scored on Day 7), your XP, what to do next, and one line to post in the shared channel. It changes nothing and sends nothing. And `explainers/` holds five small interactive figures (double-click to open, they work offline); the day files point to them where they help.
+The starter also ships two helpers. `check.js` is your quest log: every day ends with `node check.js`, which reads your repo and prints which days are done, your level (Runner, Maker, Builder, Debugger, Tester, Shipper, then Presenter, which you take for yourself once you have shipped and self-scored on Day 7), your XP, what to do next, and one line to post in the shared channel. It changes nothing and sends nothing. And `explainers/` holds five small interactive figures; with the app running, add `/explainers/` to the end of its address to open them. The day files point to them where they help.
 
 ## The week
 | Day | Outcome | Time | Evidence you post |
 |---|---|---|---|
-| 1 | Run it: tools installed, app open, tests green, `planToday` explained | 90–150 min | quest-log line, screenshot of the app, screenshot of green tests, 3 sentences |
+| 1 | Run it: GitHub account, fork, Codespace open, app open, tests green, `planToday` explained | 60–90 min | quest-log line, screenshot of the app, screenshot of green tests, 3 sentences |
 | 2 | Make it yours: new name, your colours, your own real week, first commit | 60–90 min | commit link, screenshot, one line about the days-left badge |
 | 3 | Add a feature: "Done" checkbox, tests red then green | 90–120 min | commit link with test changes, red screenshot, green screenshot |
 | 4 | Find and fix a bug: reproduce, failing test, fix, all green | 90–120 min | failing output, passing output, commit link, 3 sentences on the cause |
@@ -22,7 +22,7 @@ The starter also ships two helpers. `check.js` is your quest log: every day ends
 | 6 | Put it online: GitHub Pages, works on a phone, no personal data | 45–75 min | live URL, phone screenshot, quest-log line with `live 200` |
 | 7 | Ship it: polish, ship the live site, post the link in the shared channel, self-score against the rubric | 60–90 min | the live URL, your self-score |
 
-Total: roughly 8–10 hours; a slow install or a hard bug can push it towards 12. Do the days in order. Each day builds on the one before.
+Total: roughly 8–10 hours; a hard bug can push it towards 12. Do the days in order. Each day builds on the one before.
 
 ## House rules
 1. **Bring your own AI.** ChatGPT, Claude, Gemini, Cursor, Copilot, any of them; free tiers are fine. Use it for everything. We never ask how much you used it. We do ask you to explain what you did in your own words, and we will ask follow-up questions.
@@ -60,9 +60,9 @@ No direct messages for technical help. Questions in the shared channel help ever
 
 ## Words you will meet every day
 Each day file defines its own words where they first appear. These five come up all week:
-- **Terminal**: the window where you type commands. PowerShell on Windows, Terminal on Mac.
-- **Repository (repo)**: a folder whose history Git remembers. Yours lives on GitHub and on your laptop.
+- **Terminal**: the panel at the bottom of the editor in your Codespace, where you type commands.
+- **Repository (repo)**: a folder whose history Git remembers. Yours lives on GitHub, and your Codespace works on a copy of it.
 - **Commit**: a saved snapshot of your repo, with a one-line message saying what changed.
-- **Push**: copying your commits from your laptop up to GitHub.
+- **Push**: copying your commits from your Codespace up to GitHub.
 - **Test**: a small program that checks one fact about your code and prints pass or fail.
 - **Quest log**: what `node check.js` prints: the days you have completed, your level and XP, and the one line to post.

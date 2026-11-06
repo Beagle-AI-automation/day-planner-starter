@@ -16,5 +16,8 @@ for (const f of ['index.html', 'app.css', 'app.js', 'logic.js', 'sample-data.js'
 const src = (existsSync('tests/cases.js') ? readFileSync('tests/cases.js', 'utf8') : '') + (existsSync('tests/logic.test.js') ? readFileSync('tests/logic.test.js', 'utf8') : '');
 const cases = (src.match(/\bname\s*:\s*['"`]|\btest\(\s*['"`]/g) || []).length;
 const commits = parseInt(spawnSync('git', ['rev-list', '--count', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() || '0', 10);
-writeFileSync(path.join(ROOT, 'quest', 'baseline.json'), JSON.stringify({ files, cases, commits, madeAt: new Date().toISOString() }, null, 2));
-console.log(`baseline written: ${cases} test cases, ${commits} commits`);
+// Every starter commit is written by one address; a learner's commits carry their own. check.js counts the
+// learner's commits as the ones NOT by this address, so the Day 2 commit check survives later starter commits.
+const starterAuthorEmail = spawnSync('git', ['log', '-1', '--format=%ae'], { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() || null;
+writeFileSync(path.join(ROOT, 'quest', 'baseline.json'), JSON.stringify({ files, cases, commits, starterAuthorEmail, madeAt: new Date().toISOString() }, null, 2));
+console.log(`baseline written: ${cases} test cases, ${commits} commits, starter author ${starterAuthorEmail}`);

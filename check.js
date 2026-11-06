@@ -118,7 +118,7 @@ function gitInfo() {
   const inRepo = version !== null && out(run('git', ['rev-parse', '--is-inside-work-tree'])) === 'true';
   const info = {
     available: version !== null, version, inRepo, head: '', fullHead: '', count: 0, branch: '', remote: '', github: null,
-    dirty: false, dirtyFiles: [], author: '', userNameSet: false, last3: [], dates: [],
+    dirty: false, dirtyFiles: [], author: '', emails: [], userNameSet: false, last3: [], dates: [],
   };
   if (!inRepo) return info;
   info.head = out(run('git', ['rev-parse', '--short', 'HEAD']));
@@ -131,6 +131,7 @@ function gitInfo() {
   info.dirtyFiles = (run('git', ['status', '--porcelain']).stdout || '').split('\n').filter(Boolean).map((l) => l.slice(3).trim());
   info.dirty = info.dirtyFiles.length > 0;
   info.author = out(run('git', ['log', '-1', '--format=%an']));
+  info.emails = out(run('git', ['log', '-400', '--format=%ae'])).split('\n').filter(Boolean);
   info.userNameSet = out(run('git', ['config', 'user.name'])).length > 0;
   info.last3 = out(run('git', ['log', '-3', '--date=short', '--format=%h %ad %s'])).split('\n').filter(Boolean);
   info.dates = out(run('git', ['log', '-400', '--date=short', '--format=%ad'])).split('\n').filter(Boolean);
@@ -168,11 +169,11 @@ function checkSetup(git) {
     : { ok: false, text: 'logic.js is not here, so this is not the planner folder. In the terminal, cd into your day-planner folder, then run node check.js again' });
   let fork;
   if (!git.available) fork = { ok: false, text: 'fork: cannot check without git' };
-  else if (!git.inRepo) fork = { ok: false, text: 'this folder is not a git repository. A ZIP download is fine for Day 1; from Day 2 you push your work, so clone your fork with git (see Day 1)' };
-  else if (!git.remote) fork = { ok: false, text: 'no origin remote: this folder is not connected to GitHub yet. From Day 2 you push to your fork, so clone your fork rather than starting from a ZIP' };
+  else if (!git.inRepo) fork = { ok: false, text: 'this folder is not a git repository. Open a Codespace on your fork (Day 1, Step 3) and run this there' };
+  else if (!git.remote) fork = { ok: false, text: 'no origin remote: this folder is not connected to GitHub yet. Open a Codespace on your fork (Day 1, Step 3) and run this there' };
   else if (!git.github) fork = { ok: false, text: `origin is an address this tool does not understand: ${git.remote}` };
   else if (!git.github.github) fork = { ok: false, text: `origin is on ${git.github.host}, not github.com. Day 6 (GitHub Pages) needs a fork on github.com` };
-  else if (git.github.owner.toLowerCase() === TEMPLATE_OWNER) fork = { ok: false, text: `origin is the Beagle starter itself (${git.github.web}), not your fork. On github.com press Fork (top right of the starter page), then clone YOUR fork` };
+  else if (git.github.owner.toLowerCase() === TEMPLATE_OWNER) fork = { ok: false, text: `origin is the Beagle starter itself (${git.github.web}), not your fork. On github.com press Fork (top right of the starter page), then open a Codespace on YOUR fork (Code, Codespaces, Create codespace on main)` };
   else fork = { ok: true, text: `fork: ${git.github.web}` };
   items.push(fork);
   return { ok: items.every((i) => i.ok), nodeOk, node: process.versions.node, git: git.version, planner, fork: fork.ok ? git.github.web : null, items };
@@ -243,7 +244,7 @@ async function checkQuests({ git, setup, base, prev, L, logicError, tests, cases
   // Day 1 - Run it: files present, logic loads, tests green.
   const files = ['index.html', 'app.js', 'logic.js', 'app.css', 'sample-data.js'].every((f) => fs.existsSync(path.join(ROOT, f)));
   done[1] = files && !!L && tests.ok;
-  if (!files) notes.push('Day 1: some starter files are missing. Did you clone the whole repo? Run node check.js inside the planner folder.');
+  if (!files) notes.push('Day 1: some starter files are missing. Run node check.js in the planner folder, the one with logic.js in it.');
   else if (!L) notes.push(`Day 1: logic.js does not load: ${logicError || 'unknown error'}`);
   else if (!tests.ok && !setup.nodeOk) notes.push(`Day 1: the tests cannot run on Node ${process.versions.node}. See Setup above: install Node ${NODE_FLOOR} or newer, open a new terminal, then run node --test again.`);
   else if (!tests.ok) notes.push(`Day 1: tests are not green yet (${tests.failed ?? '?'} failing). Run: node --test`);
@@ -253,7 +254,12 @@ async function checkQuests({ git, setup, base, prev, L, logicError, tests, cases
     const changedIndex = sha(path.join(ROOT, 'index.html')) !== base.files['index.html'];
     const changedData = sha(path.join(ROOT, 'sample-data.js')) !== base.files['sample-data.js'];
     const changedCss = sha(path.join(ROOT, 'app.css')) !== base.files['app.css'];
-    const newCommit = git.inRepo && git.count > (base.commits || 0);
+    // Commits the learner made: the ones not written by the starter's own author address (recorded in the
+    // baseline), so later commits to the starter never count. Older baselines fall back to a plain count.
+    const learnerCommits = base.starterAuthorEmail
+      ? git.emails.filter((e) => e.toLowerCase() !== String(base.starterAuthorEmail).toLowerCase()).length
+      : Math.max(0, git.count - (base.commits || 0));
+    const newCommit = git.inRepo && learnerCommits > 0;
     done[2] = done[1] && (changedIndex || changedData) && changedCss && newCommit;
     if (done[1] && !done[2]) notes.push('Day 2: change the title or your tasks AND the colours in app.css, then commit. (' +
       `${changedIndex ? 'title/html changed' : 'html unchanged'}, ${changedData ? 'tasks changed' : 'tasks unchanged'}, ${changedCss ? 'colours changed' : 'colours unchanged'}, ${newCommit ? 'new commit found' : 'no new commit yet'})`);
@@ -313,10 +319,11 @@ async function checkQuests({ git, setup, base, prev, L, logicError, tests, cases
       const emptyState = /no tasks|add your first|nothing (due|planned)|empty/i.test(html);
       const invalidMsg = /check the date|invalid date|not a valid date/i.test(html);
       const day3Cases = Number.isInteger(prev.day3Cases) ? prev.day3Cases : null;
-      const need = day3Cases !== null ? day3Cases : base ? (base.cases || 0) + 1 : null;
+      const day4Cases = Number.isInteger(prev.day4Cases) ? prev.day4Cases : null;
+      const need = day4Cases !== null ? day4Cases : day3Cases !== null ? day3Cases : base ? (base.cases || 0) + 1 : null;
       const grew = need === null || cases > need;
       day5 = nan && emptyOk && emptyState && invalidMsg && grew;
-      if (done[4] && !day5) notes.push(`Day 5: ${nan ? 'bad dates give NaN' : 'daysUntil must return NaN for a bad date'}; ${emptyOk ? 'empty list OK' : 'empty task list must not throw'}; ${emptyState ? 'empty-state text found' : 'add a friendly empty-state message in the UI'}; ${invalidMsg ? 'invalid-date message found' : 'show "check the date" for a bad date'}; tests ${cases}${grew ? '' : ` (need more than ${need}${day3Cases !== null ? ', the count when Day 3 was done' : ''})`}.`);
+      if (done[4] && !day5) notes.push(`Day 5: ${nan ? 'bad dates give NaN' : 'daysUntil must return NaN for a bad date'}; ${emptyOk ? 'empty list OK' : 'empty task list must not throw'}; ${emptyState ? 'empty-state text found' : 'add a friendly empty-state message in the UI'}; ${invalidMsg ? 'invalid-date message found' : 'show "check the date" for a bad date'}; tests ${cases}${grew ? '' : ` (need more than ${need}${day4Cases !== null ? ', the count when Day 4 was done' : day3Cases !== null ? ', the count when Day 3 was done' : ''})`}.`);
     } catch (e) { notes.push(`Day 5: robustness check threw: ${e.message}`); }
   }
   done[5] = done[4] && day5 && tests.ok;
@@ -324,13 +331,18 @@ async function checkQuests({ git, setup, base, prev, L, logicError, tests, cases
   // Day 6 - Online: a github.com fork, a clean tree, a clean safety scan, and (with --url) the live page carries your title.
   let day6 = false;
   if (git.inRepo && git.github && git.github.github && !git.dirty) {
-    if (LIVE_URL) {
+    if (!LIVE_URL && prev.lastLive && prev.lastLive.ok && prev.lastLive.head === git.fullHead) {
+      // The last run with --url passed on this same commit: keep Day 6 ticked without fetching again.
+      live = { ...prev.lastLive, remembered: true };
+      day6 = true;
+    } else if (LIVE_URL) {
       try {
         const res = await fetch(LIVE_URL, { redirect: 'follow' });
         const body = await res.text();
         const title = (read(path.join(ROOT, 'index.html')).match(/<title>([^<]*)<\/title>/i) || [])[1]?.trim();
-        live = { status: res.status, hasTitle: !!title && body.includes(title) };
+        live = { status: res.status, hasTitle: !!title && body.includes(title), url: LIVE_URL, head: git.fullHead };
         day6 = res.ok && live.hasTitle;
+        live.ok = day6;
         if (!day6) notes.push(`Day 6: ${LIVE_URL} answered ${res.status}${live.hasTitle ? '' : ' and does not contain your <title>'}. Check Settings > Pages and wait a minute after pushing.`);
       } catch (e) { notes.push(`Day 6: could not fetch ${LIVE_URL}: ${e.message}`); }
     } else if (done[5]) notes.push(`Day 6: push, turn on GitHub Pages (Settings > Pages > Deploy from a branch > main, / (root)), wait a minute, then run: node check.js --url ${pages || 'https://<you>.github.io/<repo>/'}`);
@@ -417,11 +429,11 @@ function submitLines(day, R) {
   const live = LIVE_URL || R.pagesUrl || '[your live URL]';
   const noData = "[run node quest/safety-scan.js until it says clean, then read sample-data.js, the title and git log yourself for people's names (the scan cannot see names). Then write: No personal data: checked data file, title, commit messages, full-folder search.]";
   switch (day) {
-    case 1: return [shot('the app open on your laptop'), shot('the green tests, fail 0'), 'My three sentences about planToday: [1] [2] [3]', `Fork: ${fork}`];
+    case 1: return [shot('the app open in your Codespace preview'), shot('the green tests, fail 0'), 'My three sentences about planToday: [1] [2] [3]', `Fork: ${fork}`];
     case 2: return [`Commit: ${commit}`, shot('the app with your name, your colours and your tasks'), 'Badge note: [does the days-left badge agree with the due date? one line]'];
     case 3: return [shot('the red run, before the change to logic.js'), shot('the green run after'), `Commit (must include tests/cases.js): ${commit}`, shot("a task ticked and greyed, missing from Today's plan")];
     case 4: return ['[red run before the fix: screenshot or pasted text]', '[green run after the fix: screenshot or pasted text]', `Commit (must include tests/cases.js and logic.js): ${commit}`, 'Root cause in three sentences: [1] [2] [3]'];
-    case 5: return [`Commit: ${commit}`, '[test output showing fail 0]', 'Red before my change: [which of the four tests]', shot('a task whose badge says check the date'), shot('the empty state')];
+    case 5: return [`Commit: ${commit}`, '[test output showing fail 0]', 'Red before my change: [which of the four tests, or none]', shot('a task whose badge says check the date'), shot('the empty state')];
     case 6: return [`Live: ${live}`, shot('the planner on your phone'), noData];
     case 7: return [`Live: ${live}`, `Fork: ${fork}`, 'Self-score: [one line per day, Day 1 to Day 7: met / not met, from the rubric in days/day-7.md]', 'What I would build next: [one line]', 'One thing I still do not fully understand: [one line]', 'Decision: [continue / not now / undecided]'];
     default: return [];
@@ -480,6 +492,8 @@ async function main() {
   // Remembered from run to run: the test count the first time Day 3 was done (Day 5 must grow past it), and
   // the done map of the last run with green tests (so --stuck knows which day you are on while tests are red).
   const day3Cases = Number.isInteger(prev.day3Cases) ? prev.day3Cases : (done[3] ? cases : null);
+  const day4Cases = Number.isInteger(prev.day4Cases) ? prev.day4Cases : (done[4] ? cases : null);
+  const lastLive = live && live.ok ? { ok: true, status: live.status, hasTitle: live.hasTitle, url: live.url, head: live.head } : (prev.lastLive || null);
   const greenDone = tests.ok ? done : (prev.greenDone || prev.done || {});
 
   const report = {
@@ -492,7 +506,7 @@ async function main() {
     safety: { ran: safety.ran, clean: safety.clean, findings: safety.findings, filesChecked: safety.filesChecked, commitsChecked: safety.commitsChecked, error: safety.error },
     live,
     next: next ? { day: next.day, name: next.name, file: `days/day-${next.day}.md` } : null,
-    notes, flipped, evidenceDay, evidence, day3Cases, greenDone,
+    notes, flipped, evidenceDay, evidence, day3Cases, day4Cases, lastLive, greenDone,
   };
   if (!STUCK && SUBMIT === null) {
     try { fs.mkdirSync(path.join(ROOT, 'quest'), { recursive: true }); fs.writeFileSync(progressPath, JSON.stringify(report, null, 2)); } catch {}

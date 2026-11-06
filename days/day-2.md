@@ -19,11 +19,11 @@ Rename the app, change its three colours, replace the sample tasks with your own
 - **Badge**: the small label in the task table that shows how many days are left.
 
 ## Steps
-1. Open your Codespace from github.com (**Code → Codespaces**, click the one listed) and start the app with `npx serve .` as on Day 1, so the preview is open in a second browser tab. Keep both tabs handy: the editor in one, the running app in the other. You should see: the files in one tab and the running app in the other.
+1. Open your Codespace from github.com (**Code → Codespaces**, click the one listed) and start the app with `npx serve .` as on Day 1, so the preview tab is open next to your files. You should see: the files in the editor and the running app in its preview tab.
 
 2. Rename the app. Open `index.html`. Find the text `Day Planner`. It appears twice: inside `<title>` (the browser tab name) and inside the header `<h1>` (the big title on the page). Change both to a name of your own, for example `My Week` or `Sem 5 Survival Kit`. Save the file and reload the browser. You should see: your new name in the browser tab and at the top of the page.
 
-3. Change the three colours. Open `app.css`. Near the top find the block that starts with `:root {`. Inside it are three lines: `--accent`, `--bg` and `--text`. Change the three values. Colour names work (for example `--accent: teal`, `--bg: ivory`, `--text: navy`) and so do codes like `#1e3a5f`. Keep `--text` dark: the panels stay white. Save and reload. You should see: the page in your colours. If nothing changes, hard-reload with Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac).
+3. Change the three colours. Open `app.css`. Near the top find the block that starts with `:root {`. Inside it are three lines: `--accent`, `--bg` and `--text`. Change the three values. Colour names work (for example `--accent: teal`, `--bg: ivory`, `--text: navy`) and so do codes like `#1e3a5f`. Keep `--text` dark: the panels stay white. Save and reload with the preview tab's own reload icon. You should see: the page in your colours. If nothing changes, open the app in a normal browser tab (the icon at the top right of the preview) and press Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac).
 
 4. Look at the data before you change it. Open `sample-data.js` in your editor. It is a list inside a JavaScript file: a line `const sampleTasks = [`, then one task per line, then `];`, then a short block at the bottom that shares the list with the page (leave that block alone). Read one task. You should see: each task has the same seven parts: `id`, `course`, `title`, `type`, `due`, `hours`, `done`, written with curly brackets, double quotes and commas, and a comma at the end of each line except the last. `course` is the area a task belongs to — a job, a client, a class, your own life — which is why the app shows that column as "Course or area".
 
@@ -44,7 +44,7 @@ Rename the app, change its three colours, replace the sample tasks with your own
 
 8. Compare the badge with the date. First press **Reset to sample tasks** once more so the page shows the file, not an older saved copy. Pick the task whose due date is nearest. Count the days from today to that date yourself, on a calendar. Look at the task's days-left badge. Then change the "Today" input to the exact due date of any task and look at that task's badge. Write one line in your notes: does the badge agree with the due date? Note anything odd, even if you are not sure. You will need this note on Day 4. You should see: a one-line note. Do not fix anything today.
 
-9. Tell Git who you are (once, ever). Every commit carries the name and email of the person who made it, and Git refuses to commit until it knows yours. In the terminal run `git config --global user.name "Your Name"` and then `git config --global user.email "the-email-you-used-on-github"`. If you prefer not to show your email, GitHub gives you a private one: on github.com click your profile picture (top right) → **Settings** → **Emails** in the left menu, tick "Keep my email addresses private", and use the `...@users.noreply.github.com` address shown on that page. You should see: no output after each command. Silence is success here.
+9. Check Git knows who you are. Every commit carries the name and email of the person who made it. Your Codespace is signed in as you, so this is usually already set: in the terminal run `git config user.email`. You should see: an address printed. If it printed one, skip to Step 10. If it printed nothing, use the private address GitHub gives you (never your real email, GitHub blocks pushes that would publish it): on github.com click your profile picture (top right) → **Settings** → **Emails**, copy the `...@users.noreply.github.com` address shown there, then run `git config --global user.email "that-address"` and `git config --global user.name "Your Name"`. Silence after each command is success.
 
 10. See what changed. Run `git status`. You should see: three file names in red under "Changes not staged for commit": `index.html`, `app.css`, `sample-data.js`.
 
@@ -90,15 +90,16 @@ In this CSS, what is :root and what does var(--accent) do? Explain in plain Engl
 - [ ] The app name and the three colours are changed and visible.
 - [ ] `sample-data.js` holds your own real week: 8–12 tasks, names and dates only, no personal details.
 - [ ] The check command prints `N tasks ok` and `node --test` prints `fail 0`.
-- [ ] `node check.js` shows Day 2 ticked (or, for website commits, the commit link is posted; see step 11).
-- [ ] One commit (or a few, if you used the website) is on GitHub and the link is posted.
+- [ ] `node check.js` shows Day 2 ticked.
+- [ ] Your commit is on GitHub and the link is posted.
 - [ ] Your badge note is posted.
 - [ ] Evidence line posted in the shared channel. Nothing to wait for: `check.js` decided the day.
 
 ## If you are stuck
 1. The page is blank, or the table is empty, after you edited the data file: the file is broken. Run the check command in Step 6 and fix the line it points at. The usual causes are a missing comma between two tasks, a missing double quote, a deleted `];`, or a date written like `5/11/2026`.
-2. The page still shows the OLD sample tasks after your edit: your browser kept a saved copy of the tasks (the app remembers tasks you add through the form). Click **Reset to sample tasks** at the bottom of the page. If that button is not there, press F12, click the **Console** tab, type `localStorage.removeItem('day-planner-tasks')`, press Enter, and reload.
-3. `git push` is rejected: this should not happen in a Codespace, which is already signed in to your GitHub account. Check the address bar says your own username, not `Beagle-AI-automation` — if you opened the Codespace on the original repo instead of your fork, you have no permission to push to it. Fork first, then open a Codespace on the fork.
+2. The page still shows the OLD sample tasks after your edit: your browser kept a saved copy of the tasks (the app remembers tasks you add through the form). Click **Reset to sample tasks** at the bottom of the page. If that button is not there, open the app in a normal browser tab (the icon at the top right of the preview), press F12, click the **Console** tab, type `localStorage.removeItem('day-planner-tasks')`, press Enter, and reload.
+3. `git push` is rejected with a message about a private email address (it mentions `GH007`): Git used your real email and GitHub keeps it private. Run `git config --global user.email "the ...@users.noreply.github.com address from Settings → Emails"`, then `git commit --amend --reset-author --no-edit`, then `git push` again.
+4. `git push` is rejected for permission: check the address bar says your own username, not `Beagle-AI-automation`. If you opened the Codespace on the original repo instead of your fork, you have no permission to push to it. Fork first, then open a Codespace on the fork.
 
 ## Common mistakes
 - Changing colours somewhere in the middle of `app.css` instead of the three variables in `:root` at the top. The variables are what the rest of the file reads.

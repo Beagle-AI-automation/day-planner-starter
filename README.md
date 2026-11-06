@@ -6,32 +6,27 @@ This copy is yours. Rename it, recolour it, put your own real week in, and chang
 
 ## Start here (the 7-day build week)
 
-This repo is your copy for the Beagle build week. Everything you need is inside it and works offline once it is on your laptop.
+**Go to `days/day-1.md` and start at Step 1.** It tells you everything, one step at a time.
 
-- **What you need:** any Windows, macOS or Linux laptop from the last six years or so; about 8–10 hours this week; the free tier of any AI tool (ChatGPT, Claude, Gemini, Cursor or Copilot). Downloads: Git (about 60 MB), Node (about 30 MB), this repo (under 1 MB). No framework, no accounts, no server: plain HTML, CSS and JavaScript.
-- **The week, day by day:** open `days/README.md`, then `days/day-1.md`. One day at a time, in order.
-- **See how it works:** the `explainers/` folder has interactive figures (double-click any of them) that explain what you meet each day.
+This repo is your copy for the Beagle build week. You install nothing: the whole week runs in a browser tab, inside a GitHub Codespace (a computer GitHub runs for you in the cloud, with a code editor in your browser).
+
+- **What you need:** any computer with a browser (Windows, Mac, Linux, a Chromebook, a borrowed laptop); a free GitHub account; about 8–10 hours this week; the free tier of any AI tool (ChatGPT, Claude, Gemini, Cursor or Copilot). No downloads, no framework, no server: plain HTML, CSS and JavaScript.
+- **The week, day by day:** `days/README.md` is the week at a glance, then `days/day-1.md` to `days/day-7.md`. One day at a time, in order.
+- **See how it works:** the `explainers/` folder has interactive figures that explain what you meet each day. With the app running (`npx serve .`), add `/explainers/` to the end of the app's address to open them.
 - **How review works:** `check.js` verifies the work automatically. Days 1 to 6 are marked done or not done by `node check.js` in your own copy, so there is no human gate and nothing to wait for: run it and you know where you stand. You still post your evidence in the shared channel (the cohort WhatsApp group) — a commit link, a screenshot, three sentences in your own words — because that is how everyone else learns from it. Questions go in that same channel: your own AI tool first, then the channel, then a written answer from Adi within one business day, visible to everyone. There are no one-to-one calls on weekdays. Day 7 is the one day `check.js` cannot score, so you score it yourself against the rubric in `days/day-7.md`. There are no grades and no scores.
 - **Your AI is welcome.** Use it for everything. What you must be able to do is explain your change in your own words when asked; if you cannot, you get one question and a chance to rewrite, not a penalty.
 - **Your work is yours.** This starter is MIT-licensed (see `LICENSE`), so your fork is yours to keep and change. The week does not promise a job, a placement or an income; it gives you a working app in your own GitHub and the ability to explain it.
 
 ## Open it
 
-Pick whichever is easiest:
-
-1. **Double-click `index.html`.** It opens in your browser.
-2. **With Node:** open a terminal in this folder and run `npx serve`, then open the address it prints (usually `http://localhost:3000`).
-3. **With Python:** open a terminal in this folder and run `python3 -m http.server 8000`, then open `http://localhost:8000`.
-
-All three show the same app. Tasks you add through the form are saved in your browser; "Reset to sample tasks" brings back the list in `sample-data.js`.
+In your Codespace, in the terminal at the bottom of the editor, run `npx serve .` (say `y` if it asks to install). A tab named **Your app** opens inside the editor with the page in it; the small icon at its top right opens the same page in a normal browser tab. Tasks you add through the form are saved in your browser; "Reset to sample tasks" brings back the list in `sample-data.js`.
 
 ## Run the tests
 
 The tests check the thinking in `logic.js`. Run them either way:
 
-- **In a terminal** (needs Node 22 or newer), from this folder: `node --test`
-  Every line should start with a tick and the summary should say `fail 0`.
-- **In a browser:** open `tests/browser.html`. It shows the same test names with PASS or FAIL.
+- **In the terminal:** `node --test`. Every line should start with a tick and the summary should say `fail 0`. (Node 22 or newer; your Codespace already has it.)
+- **In a browser:** with the app running, add `/tests/browser.html` to the end of the app's address. It shows the same test names with PASS or FAIL.
 
 Both run the identical list of tests from `tests/cases.js`.
 
@@ -97,6 +92,10 @@ A task looks like this everywhere:
 ## Good to know
 
 - **Tasks you add are saved in your browser** (under the key `day-planner-tasks`), so they are still there after a reload. They are only in that browser on that computer. **Reset to sample tasks** clears them and loads the sample list again.
-- **One copy of the sample tasks.** They live in `sample-data.js`, loaded by `index.html` like any other script, so double-click, `npx serve` and GitHub Pages all show the same list. Check your edits with `node -e "console.log(require('./sample-data.js').length + ' tasks ok')"`.
+- **One copy of the sample tasks.** They live in `sample-data.js`, loaded by `index.html` like any other script, so the Codespace preview, `npx serve` and GitHub Pages all show the same list. Check your edits with `node -e "console.log(require('./sample-data.js').length + ' tasks ok')"`.
 - **If you edited the sample tasks and nothing changed**, you are probably looking at tasks saved earlier. Press **Reset to sample tasks**.
 - All names and dates in the sample data are made up. Keep it that way when you share your copy: course names and dates only, no marks, no personal details.
+
+## Later, on your own laptop
+
+Nothing in the week needs this. If you ever want the app on your own machine: install Git and Node (22 or newer), `git clone` your fork, and either double-click `index.html` or run `npx serve` in the folder. `node --test` and `node check.js` work the same there.

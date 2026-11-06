@@ -1,6 +1,7 @@
 {
   "name": "Day Planner",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "containerEnv": { "TZ": "Asia/Kolkata" },
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
