@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beagle trial: see how it works</title>
+<meta name="description" content="The five interactive figures of the Beagle 7-day trial, one per day, with what each one shows.">
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#ffffff; --text:#1b1b1b; --muted:#5f5f5f; --line:#d8d8d8; --card:#f6f6f6;
+  --link:#1f5fbf; --note:#7a4f00; --note-bg:#fff3d6; --done:#2a6b2a;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121212; --text:#ececec; --muted:#a6a6a6; --line:#343434; --card:#1c1c1c;
+    --link:#8ab8ff; --note:#f0c674; --note-bg:#2b2310; --done:#8fd08f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121212; --text:#ececec; --muted:#a6a6a6; --line:#343434; --card:#1c1c1c;
+  --link:#8ab8ff; --note:#f0c674; --note-bg:#2b2310; --done:#8fd08f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--text);
+  font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  max-width:640px; margin:0 auto; padding:24px 16px 48px;
+  -webkit-text-size-adjust:100%;
+}
+header h1{font-size:1.5rem; line-height:1.25; margin:0 0 8px}
+header p{margin:0 0 12px}
+.first{
+  border:1px solid var(--line); border-radius:8px; background:var(--card);
+  padding:12px 14px; margin:16px 0 24px;
+}
+.first h2{font-size:1rem; margin:0 0 6px}
+.first p{margin:0 0 6px}
+.first p:last-child{margin-bottom:0}
+.count{color:var(--muted); font-size:.9rem}
+ol.figs{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+.fig{border:1px solid var(--line); border-radius:8px; background:var(--card); padding:14px 16px}
+.day{
+  display:flex; flex-wrap:wrap; gap:4px 10px; align-items:baseline;
+  font-size:.8rem; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);
+}
+.day .quest{text-transform:none; letter-spacing:0}
+.day .opened{display:none; text-transform:none; letter-spacing:0; color:var(--done)}
+.fig.is-opened .day .opened{display:inline}
+.fig a{
+  display:inline-block; margin-top:2px; color:var(--link);
+  font-size:1.125rem; font-weight:600; line-height:1.3; text-decoration:none;
+}
+.fig a:hover,.fig a:focus{text-decoration:underline}
+.desc{margin:4px 0 0}
+.note{
+  display:inline-block; margin-top:8px; padding:1px 7px; border-radius:4px;
+  font-size:.8rem; color:var(--note); background:var(--note-bg);
+}
+footer{margin-top:28px; color:var(--muted); font-size:.9rem}
+footer p{margin:0 0 8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Beagle trial: see how it works</h1>
+  <p>Five small machines, one for each idea you meet during the week. Each is a single file: it opens in any browser, works offline and fits a phone.</p>
+</header>
+
+<section class="first" aria-labelledby="first-h">
+  <h2 id="first-h">First time here?</h2>
+  <p>Open any figure, drag the controls, read the readout; each one explains something you will meet that day.</p>
+  <p>Most figures start moving by themselves after a moment. Touch anything and they wait for you. Keyboard works too: click the figure once, then try the arrow keys and Space, or Tab to the buttons under it.</p>
+  <p class="count" id="count" hidden></p>
+</section>
+
+<ol class="figs">
+  <li class="fig" data-slug="how-your-app-runs">
+    <div class="day"><span>Day 1</span><span class="quest">Run it</span><span class="opened">· opened</span></div>
+    <a href="how-your-app-runs.html">How your app runs</a>
+    <p class="desc">The planner's six files built as one bench machine: pull the lever and watch a task card go from the data hopper through the motor and the gearbox of rules to the window on the console, each part lit as the file it stands for.</p>
+  </li>
+  <li class="fig" data-slug="todays-plan-hopper">
+    <div class="day"><span>Day 1</span><span class="quest">Run it</span><span class="opened">· opened</span></div>
+    <a href="todays-plan-hopper.html">How planToday decides what you do today</a>
+    <p class="desc">A sorting machine: twelve task blocks queue on a chute and a gate decides which ones fit into the hours you have today; turn the dial or step the date and watch the plan change.</p>
+  </li>
+  <li class="fig" data-slug="what-a-test-is">
+    <div class="day"><span>Day 3</span><span class="quest">Add a feature with tests</span><span class="opened">· opened</span></div>
+    <a href="what-a-test-is.html">What a test is</a>
+    <p class="desc">A test as a jig on a workbench: a press stamps a blank, a gauge compares it with the answer you expected, and a switch slips a bug into the press so you can watch a green test go red.</p>
+  </li>
+  <li class="fig" data-slug="calendar-days-vs-clock-time">
+    <div class="day"><span>Day 4</span><span class="quest">Find and fix the bug</span><span class="opened">· opened</span></div>
+    <a href="calendar-days-vs-clock-time.html">Calendar days vs clock time</a>
+    <p class="desc">A clock, a calendar and a dial gauge on a bench: drag the time through the day and see why counting squares on a calendar and measuring the gap on a clock can give different answers for "days left".</p>
+  </li>
+  <li class="fig" data-slug="laptop-to-internet">
+    <div class="day"><span>Day 6</span><span class="quest">Put it online</span><span class="opened">· opened</span></div>
+    <a href="laptop-to-internet.html">From your laptop to a live website</a>
+    <p class="desc">A two-level bench: press Fork, Clone, Commit, Push and Pages in order and follow your repo crate from GitHub's shelf to your laptop and back up to the kiosk that shows it to anyone with the link; press one too early and a red lamp tells you why.</p>
+    <p class="note">Being improved: on a phone the readout text can run past the card edge after the first press. Everything still works.</p>
+  </li>
+</ol>
+
+<footer>
+  <p>Days 2, 5 and 7 have no figure of their own: Day 2 is about making the app yours, Day 5 about making it robust, Day 7 is about shipping it and scoring your own week.</p>
+  <p>Your day file (<code>days/day-N.md</code>) says when to open each one. You can come back here any time.</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = "beagle-explainers-opened";
+  var figs = document.querySelectorAll(".fig[data-slug]");
+  var countEl = document.getElementById("count");
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { return {}; }
+  }
+  function save(map) {
+    try { localStorage.setItem(KEY, JSON.stringify(map)); } catch (e) {}
+  }
+  function paint() {
+    var map = load(), n = 0;
+    for (var i = 0; i < figs.length; i++) {
+      var on = !!map[figs[i].getAttribute("data-slug")];
+      figs[i].classList.toggle("is-opened", on);
+      if (on) n++;
+    }
+    if (countEl) {
+      countEl.hidden = n === 0;
+      countEl.textContent = "You have opened " + n + " of " + figs.length + " on this device.";
+    }
+  }
+  for (var i = 0; i < figs.length; i++) {
+    (function (fig) {
+      var link = fig.querySelector("a");
+      if (!link) return;
+      link.addEventListener("click", function () {
+        var map = load();
+        map[fig.getAttribute("data-slug")] = true;
+        save(map);
+        paint();
+      });
+    })(figs[i]);
+  }
+  paint();
+})();
+</script>
+</body>
+</html>
